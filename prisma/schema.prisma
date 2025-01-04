@@ -16,7 +16,7 @@ datasource db {
 model Product {
   id           Int          @id @default(autoincrement())
   name         String       @unique
-  price        Float
+  price        Float?       @default(0)
   sale         Boolean      @default(false)
   availability Availability @default(IN_STORE)
   description  Description?
@@ -34,12 +34,13 @@ model Description {
 }
 
 model Review {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String
-  rating    Int
-  productID Int
-  product   Product @relation(fields: [productID], references: [id])
+  id              Int     @id @default(autoincrement())
+  title           String
+  content         String
+  rating          Int
+  productID       Int
+  product         Product @relation(fields: [productID], references: [id])
+  product_content Json?   @default("{}")
 }
 
 model Tag {

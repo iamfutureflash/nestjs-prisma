@@ -15,7 +15,7 @@ export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
   @Post()
-  create(@Body() createReviewDto: Prisma.ReviewCreateInput) {
+  create(@Body() createReviewDto: Prisma.ReviewUncheckedCreateInput) {
     return this.reviewsService.create(createReviewDto);
   }
 

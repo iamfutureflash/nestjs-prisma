@@ -5,9 +5,12 @@ import { DatabaseService } from 'src/database/database.service';
 @Injectable()
 export class ReviewsService {
   constructor(private readonly databaseService: DatabaseService) {}
-  async create(createReviewDto: Prisma.ReviewCreateInput) {
+  async create(createReviewDto: Prisma.ReviewUncheckedCreateInput) {
+    const product = await this.databaseService.product.findUnique({
+      where: { id: createReviewDto.productID },
+    });
     return await this.databaseService.review.create({
-      data: createReviewDto,
+      data: { ...createReviewDto, product_content: { ...product } },
     });
   }
 
