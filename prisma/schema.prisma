@@ -16,11 +16,36 @@ datasource db {
 model Product {
   id           Int          @id @default(autoincrement())
   name         String       @unique
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
   price        Float
   sale         Boolean      @default(false)
   availability Availability @default(IN_STORE)
+  description  Description?
+  reviews      Review[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  tags         Tag[]
+}
+
+model Description {
+  id        Int     @id @default(autoincrement())
+  content   String
+  productID Int     @unique
+  product   Product @relation(fields: [productID], references: [id])
+}
+
+model Review {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String
+  rating    Int
+  productID Int
+  product   Product @relation(fields: [productID], references: [id])
+}
+
+model Tag {
+  id      Int       @id @default(autoincrement())
+  content String
+  product Product[]
 }
 
 enum Availability {
